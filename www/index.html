@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="57x57" href="/airdrop/assets/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/airdrop/assets/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/airdrop/assets/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/airdrop/assets/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/airdrop/assets/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/airdrop/assets/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/airdrop/assets/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/airdrop/assets/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/airdrop/assets/apple-icon-180x180.png">
+    <link rel="manifest" href="/airdrop/assets/manifest.json">
+    <link rel="icon" type="image/x-icon" href="/airdrop/assets/favicon.ico">
+    <title>AirDrop Message</title>
+</head>
+<body onload="document.getElementById('loading').style.display='none'; document.getElementById('root').style.display='block'">
+    <div id="loading" style="margin: top 50%; ">
+        <h3 style="text-align: center; color: gray;">Laden der Seite...</h3>
+        <p style="text-align: center; color: gray;">Durch das Schul-Wlan kann dies einen kleinen Moment dauern...</p>
+    </div>
+    <div class="root" id="root" style="display: none;"> 
+        <img id="logo" src="./assets/airdrop.png" onclick="if(confirm('Nachrichtenverlauf löschen?')){window.location = window.location.protocol+'//'+window.location.hostname+'/airdrop/'}" width="100" style="display:block; margin-left:auto; margin-right:auto;">
+        <h1 class="center" id="header">AirDrop Message</h1> 
+        <div id="container" class="">
+    
+        </div>
+        <div id="share-con" style="display: none;" class="">
+            <div id="new-con" class="center">
+                <h2 style="text-align: center; color:white;margin-bottom: 0.1%;">Neue Nachricht</h2>
+                <p style="text-align: center; color:white; margin-top: 0.1%;">Vorschau</p>
+            </div>
+            <button id="share" class="center floated"><h3>Senden</h3></button>
+            <button id="cancel" style="background-color: #ff3b30;" class="center floated"><h3>Abbrechen</h3></button>   
+        </div>
+        <button id="answer" class="center"><h3>Antworten</h3></button>
+        <p id="spacer"></p>
+        <p id="motd"></p>
+        <p id="foot" class="center">by emmellus 2022 | 
+            <a href="shortcuts://run-shortcut?name=AirDrop%20Message&params=" target="_blank" id="sus"style="color:gray">Answer via Shortcut</a> 
+            | 
+            <a href="https://github.com/officialemmel" target="_blank" style="color:gray">Source Code</a>
+            | 
+            <a href="https://emmelnet.systems" target="_blank" style="color:gray">emmelnet.systems</a>
+        </p>
+    </div>
+   <style>
+
+        /* DARK MODE SCHEME */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #2F2F2F;
+                --font: white;
+                --container: #1F1F1F;
+                --blue: #0982fc;
+                --thread: #262626;
+            }
+        }
+
+        /* LIGHT MODE SCHEME */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg: #ffffff;
+                --font: #000000;
+                --container: #e4e4e4;
+                --blue: #0982fc;
+                --thread: #d3d3d3;
+            }
+        }
+
+       body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background-color: var(--bg);
+        color: var(--font);
+       }
+       #header {
+           text-align: center;
+           padding-bottom: 2.5%;
+       }
+       #msg-container {
+           background-color: var(--container);
+           padding: 10px;
+           border-radius: 21px;
+           /* margin-bottom: 5%; */
+           font-size: larger;
+       }
+        .center {
+            margin: auto;
+            width: 50%;
+        }
+        #author {
+            font-weight: 700;
+            margin-left: 1%;
+            margin-top: 0.5%;
+            margin-bottom: 1%;
+            font-size: large;
+        }
+        #message {
+            margin-left: 1%;
+            margin-right: 1%;
+            margin-top: 1%;
+            margin-bottom: 1%;
+        }
+        #foot {
+            color: gray;
+            text-align: center;
+            margin-bottom: 1%;
+        }
+        #motd {
+            color: gray;
+            text-align: center;
+            margin-bottom: 1%;
+            margin-top: 10%;
+            font-size: large;
+        }
+        #thread {
+            background-color: var(--thread);
+            padding: 0.5%;
+            border-radius: 27px;
+            margin-bottom: 1%;
+            padding: 1%;
+        }
+        #new-con {
+            background-color: var(--thread);
+            padding: 0.5%;
+            border-radius: 27px;
+            margin-bottom: 1%;
+            padding: 1%;
+        }
+        .curr {
+            border-color: var(--blue);
+            border-width: 5px;
+        }
+        #answer, #share, #cancel {
+            margin-top: 2%;
+            border-radius: 21px;
+            background-color: var(--blue);
+            text-align: center;
+            display:block;
+            width: 20%;
+            border-style: none;
+            color: white;
+            font-size: large;
+            
+        }
+        #spacer {
+            margin-top: 10%;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        @-webkit-keyframes spin {  
+            100% { -webkit-transform: rotate(360deg); } 
+        }
+        @-webkit-keyframes popout {
+            from{-webkit-transform:scale(1)}
+            30%{-webkit-transform:scale(1.1)}
+            to{-webkit-transform:scale(1)}
+        }
+
+        /* MOBILE MODE */
+        @media screen and (max-width: 1000px) {
+            #answer, #share, #cancel {
+                margin-top: 5%;
+                border-radius: 21px;
+                background-color: var(--blue);
+                text-align: center;
+                display:block;
+                width: 50%;
+                border-style: none;
+                color: white;
+                font-size: large;
+            }  
+            #thread {
+                background-color: var(--thread);
+                border-radius: 27px;
+                margin-bottom: 15px;
+                padding: 15px;
+            } 
+            #new-con {
+                background-color: var(--thread);
+                border-radius: 27px;
+                margin-bottom: 1%;
+                padding: 15px;
+            }
+            #msg-container {
+                background-color: var(--container);
+                padding: 10px;
+                border-radius: 21px;
+                font-size: larger;
+            }
+            .center {
+                margin: auto;
+                width: 90%;
+            }
+            #author {
+                font-size: x-large;
+            }
+            #header {
+                text-align: center;
+                margin-bottom: 5%;
+            }
+        }
+   </style>
+   <script>
+    
+    if(!window.location.hostname.includes("airdrop")){
+        window.location.hostname = "airdrop." + window.location.hostname
+    }
+
+    let chat = getParameterByName("chat")
+
+    let container = document.getElementById("container")
+
+    let proto = {"chat":[{"author":"Emil","message":"hallo"},{"test":"lol"}]}
+
+    let data = null
+    let damaged = false
+
+    if(chat != null || !isBlank(chat)){
+        showChat(chat)
+    } else {
+        let h = document.createElement("h1")
+        h.innerHTML = getTitle()
+        h.id = "header"
+        h.style.fontSize = "xxx-large"
+        h.style.fontWeight = "900"
+        container.append(h)
+        document.getElementById("answer").innerHTML = "<h3>Nachricht senden</h3>" 
+    }
+
+    const answ = document.getElementById("answer");
+
+    answ.scrollIntoView()
+
+    answ.addEventListener('click', () => {data = answer()});
+
+
+    const share = document.querySelector("#share")
+
+    share.addEventListener("click", async () => {
+        share.disabled = true;
+        share.innerHTML = "<h3>Lädt...</h3>"
+        share.style.backgroundColor = "gray"
+        try {
+            await navigator.share(data)
+            share.disabled = false;
+            share.innerHTML = "<h3>Senden</h3>"
+            share.style.backgroundColor = "#0982fc"
+        } catch(err) {
+            share.disabled = false;
+            share.innerHTML = "<h3>Senden</h3>"
+            share.style.backgroundColor = "#0982fc"
+        }
+    })
+
+    function showChat(chat){
+        try {
+            let parsed = JSON.parse(chat)
+            let threadcon = document.createElement("div")
+            threadcon.className = ("center")
+            threadcon.id = "thread"
+            let title = document.createElement("h2")
+            title.innerHTML = "Chat"
+            title.style.textAlign = "center"
+            threadcon.append(title)
+            let i = 0; 
+            for (i; i < parsed.chat.length-1; i++) {
+                const element = parsed.chat[i];
+                if(element.message == undefined || element.author == undefined) { threadcon.append(createError("Lesen der Nachricht fehlgeschlagen","")); damaged = true; continue }
+                if(isBlank(element.message)||isBlank(element.author)) { threadcon.append(createError("Ungültige Nachricht","")); damaged = true; continue}
+                let msg = createMessage(check(element.author),check(element.message))
+                msg.style.maxWidth = "100%"
+                msg.style.width = "auto"
+                if(i != 0) { msg.style.marginTop = "2%" }
+                threadcon.append(msg)
+            }
+            if(i !== 0) {container.append(threadcon)}
+
+            let element = parsed.chat[parsed.chat.length-1]
+            if(element.message == undefined || element.author == undefined) { container.append(createError("Lesen der Nachricht fehlgeschlagen","")); damaged = true; return}
+            if(isBlank(element.message)||isBlank(element.author)) {container.append(createError("Ungültige Nachricht","")); damaged = true; return}
+
+            let msg = createMessage(check(element.author), check(element.message))
+
+            msg.style = "border-style: solid; border-color: #0982fc; border-width: 2px; -webkit-animation: popout 1s ease;"
+
+            container.append(msg)
+            document.getElementById("motd").innerHTML = getTitle()
+            
+            //SHORTCUT
+            document.getElementById("sus").href = "shortcuts://run-shortcut?name=AirDrop%20Message&input=text&text="+chat
+
+        }catch (e) {console.error(e);container.append(createError("Lesen des Chats fehlfeschlagen.", "Fehler!")); damaged = true;} 
+    }
+
+
+    document.getElementById("cancel").addEventListener("click", () => {
+        document.getElementById("container").style.display = "block"
+        document.getElementById("answer").style.display = "block"
+        document.getElementById("share-con").style.display = "none"
+        let idkwhybutarr = []
+        for (let i = 0; i < document.getElementById("new-con").children.length; i++) {
+            const element = document.getElementById("new-con").children[i];
+            if(element.id == "msg-container"){
+                idkwhybutarr.push(element)
+            }
+        }
+        for (let i = 0; i < idkwhybutarr.length; i++) {
+            const element = idkwhybutarr[i];
+            element.remove()
+        }
+        if(chat != null || !isBlank(chat)){return}
+        let h = document.createElement("h1")
+        h.innerHTML = getTitle()
+        h.id = "header"
+        h.style.fontSize = "xxx-large"
+        h.style.fontWeight = "900"
+        document.getElementById("container").append(h)
+    })
+
+
+
+    function createMessage(aut, text) {
+        let con = document.createElement("div")
+        
+        con.className = "center "
+        con.id = "msg-container"
+        let auth = document.createElement("h3")
+        auth.id = "author"
+        auth.innerHTML = aut
+        let msg = document.createElement("p")
+        msg.id = "message"
+        msg.innerHTML = text
+
+        con.append(auth)
+        con.append(msg) 
+        return con
+    }
+
+    function createError(t, msg) {
+        let err = createMessage(msg, t)
+        err.id = "msg-container"
+        err.style = "color: #ff3b30; text-align: center; border-style: solid; border-color: #ff3b30; border-width: 2px; margin-bottom: 2%;"
+        err.className = ""
+        return err 
+    }
+
+
+    function createInfo(t, msg, color) {
+        let err = createMessage(msg, t)
+        err.id = "msg-container"
+        err.style = "color: #ffd60a; text-align: center; border-style: solid; border-color: #ffd60a; border-width: 2px; margin-bottom: 2%;"
+        err.className = ""
+        return err 
+    }
+
+    function answer() {
+        let txt = prompt("Nachricht:")
+        if(txt == null){return}
+        if(isBlank(txt)){return}
+        let store = localStorage.getItem("name")
+        let pre = (store == null) ? "" : store
+        let autor = prompt("Autor: (Optional, 'Ok' um zu skippen)", pre)
+        if(autor == ""){
+            autor = "Anonym"
+        } else {
+            localStorage.setItem("name",check(autor))
+            autor = check(autor)
+        }
+        let thread
+        if(!usesWorkingChat()) {
+            thread = createThread(check(autor), check(txt))
+        } else {
+            thread = addToThread(check(autor), check(txt))
+        }
+
+        let url = window.location.protocol+"//"+window.location.hostname+"/airdrop/?chat="+thread
+        console.log(url);
+        document.getElementById("container").style.display = "none"
+        let sharecon = document.getElementById("share-con")
+        sharecon.style.display = "block"
+
+        let newcon = document.getElementById("new-con")
+
+        if(damaged){
+            let war = createInfo("Der aktuelle Chatverlauf ist beschädigt. Beim senden dieser Nachricht wird er zurückgesetzt.","","")
+            newcon.append(war)
+        }
+        let prev = createMessage(autor, txt)
+        prev.style.maxWidth = "100%"
+        prev.style.width = "auto"
+
+        // prev.children[1].addEventListener("click", () => {
+        // data = edit()
+        // })
+
+        // prev.children[0].addEventListener("click", () => {
+        // data = edit_aut()
+        // })
+
+        newcon.append(prev)
+
+
+        prev.className = prev.className + " share"
+
+        document.getElementById("answer").style.display = "none"
+
+        return {
+            url: url
+        };
+
+    }
+
+    function usesWorkingChat(){
+        try {
+            let p = JSON.parse(chat)
+            p = p.chat
+            for (let i = 0; i < p.length; i++) {
+                const element = p[i];
+                if(!element.message || !element.author){return false}
+            }
+            return true
+        } catch(e){return false}
+    }
+
+    function createThread(name, text) {
+        let obj = {chat:[]}
+        obj.chat.push({"author":name,"message":text})
+        return JSON.stringify(obj)
+    }
+
+    function addToThread(name, text) {
+        let json = JSON.parse(chat)
+        json.chat.push({"author":name,"message":text})
+        return JSON.stringify(json)
+    }
+
+    function getParameterByName(name, url = window.location.href) {
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+
+    }
+
+    function check(str) {
+        var lt = /</g, 
+        gt = />/g, 
+        ap = /'/g, 
+        ic = /"/g;
+        return str.toString().replace(lt, "&lt;").replace(gt, "&gt;").replace(ap, "&#39;").replace(ic, "&#34;").replace("&","und");
+    }
+
+    function isBlank(str) {
+    return (!str || /^\s*$/.test(str));
+    }
+
+    function getTitle(){
+        const list = [
+            "Text versenden mit AirDrop",
+            "Mit AirDrop Text versenden",
+            "AbEr sOwAs giBt eS DoCh sChOn oDeR?!1!",
+            "AirDRIP 🥵",
+            "AirAirAir",
+            "MicDrop Message",
+            "U lookin kinda sus.",
+            "DropDropDrop",
+            "AirMessage Drop",
+            "DropMessage Air",
+            "AirDrop Pro",
+            "AirDrop Pro Max",
+            "187",
+            "69",
+            "Don't MESSage with me",
+            "Bullet 🤌",
+            "👀",
+            "🙃",
+            "Caught in 4k 📸",
+            "...",
+            "Benutz doch einfach Notizen",
+            "🤌",
+            "☭",
+            "🐐",
+            "Bronk.",
+            "Bruh.",
+            "Nein.",
+            "Ja.",
+            "🤝",
+            "(╯°□°）╯︵ ┻━┻",
+            "(͡° ͜ʖ ͡°)",
+            "¯\_(ツ)_/¯"
+        ]
+        return list[Math.floor(Math.random()*list.length)];
+    }
+   </script>
+</body>
+</html>

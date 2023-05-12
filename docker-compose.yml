@@ -1,0 +1,12 @@
+version: "3"
+services:
+  nginx:
+    image: nginx
+    container_name: airdrop-message-nginx
+    networks:
+      - emmelnet
+    volumes:
+      - ./www/:/usr/share/nginx/html:ro
+networks:
+  emmelnet:
+    external: true
