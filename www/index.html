@@ -39,12 +39,12 @@
         <button id="answer" class="center"><h3>Antworten</h3></button>
         <p id="spacer"></p>
         <p id="motd"></p>
-        <p id="foot" class="center">by emmellus 2022 | 
+        <p id="foot" class="center">by emmellus 2023 | 
             <a href="shortcuts://run-shortcut?name=AirDrop%20Message&params=" target="_blank" id="sus"style="color:gray">Answer via Shortcut</a> 
             | 
-            <a href="https://github.com/officialemmel" target="_blank" style="color:gray">Source Code</a>
+            <a href="https://github.com/officialemmel/airdrop-message" target="_blank" style="color:gray">Source Code</a>
             | 
-            <a href="https://emmelnet.systems" target="_blank" style="color:gray">emmelnet.systems</a>
+            <a href="https://emmelnet.systems" target="_blank" style="color:gray">airdrop.emmel.network</a>
         </p>
     </div>
    <style>
@@ -378,7 +378,7 @@
             thread = addToThread(check(autor), check(txt))
         }
 
-        let url = window.location.protocol+"//"+window.location.hostname+"/airdrop/?chat="+thread
+        let url = window.location.protocol+"//"+window.location.hostname+"/?chat="+thread
         console.log(url);
         document.getElementById("container").style.display = "none"
         let sharecon = document.getElementById("share-con")
